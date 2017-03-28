@@ -34,7 +34,7 @@ class ViewController: UITableViewController {
             // Show HUD
             let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
             loadingNotification.mode = MBProgressHUDMode.indeterminate
-            loadingNotification.labelText = "Loading"
+            loadingNotification.label.text = "Loading"
             
             let textField = alert.textFields![0]
             let text = textField.text
@@ -52,7 +52,7 @@ class ViewController: UITableViewController {
                         do {
                             guard let dataJson = try JSONSerialization.jsonObject(with: data as Data, options: []) as? [AnyObject] else {
                                 print("error trying to convert data to JSON")
-                                MBProgressHUD.hideAllHUDs(for: self.view, animated: true)
+                                MBProgressHUD.hide(for: self.view, animated: true)
                                 return
                             }
                             
@@ -60,17 +60,17 @@ class ViewController: UITableViewController {
                             print (self.results)
                             
                             DispatchQueue.main.async {
-                                MBProgressHUD.hideAllHUDs(for: self.view, animated: true)
+                                MBProgressHUD.hide(for: self.view, animated: true)
                                 self.title = text!
                                 self.tableView.reloadData()
                             }
                         } catch let error as NSError {
                             print(error.localizedDescription)
-                            MBProgressHUD.hideAllHUDs(for: self.view, animated: true)
+                            MBProgressHUD.hide(for: self.view, animated: true)
                         }
                     } else if let error = err {
                         print(error.localizedDescription)
-                        MBProgressHUD.hideAllHUDs(for: self.view, animated: true)
+                        MBProgressHUD.hide(for: self.view, animated: true)
                     }
 
                 })
@@ -97,7 +97,7 @@ class ViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCell(withIdentifier: "Cell")
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell")
         
         let data = self.results[indexPath.row]
         
